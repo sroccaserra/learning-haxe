@@ -10,6 +10,9 @@ class Main extends hxd.App {
         s2d.scaleMode = AutoZoom(256, 224, true);
         s2d.filter = null;
 
+        var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+        tf.text = "Hello World !";
+
         var tile = hxd.Res.img.sheet.toTile();
         bmp = new h2d.Bitmap(tile);
         bmp.x = s2d.width/2;
