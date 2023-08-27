@@ -1,4 +1,5 @@
 import h2d.Scene;
+import h2d.filter.Nothing;
 
 class Main extends hxd.App {
     var bmp: h2d.Bitmap;
@@ -7,8 +8,9 @@ class Main extends hxd.App {
         super.init();
         // s2d.scaleMode = LetterBox(256, 224, true, Center, Center);
         // s2d.scaleMode = Zoom(3);
+        // s2d.scaleMode = Stretch(256, 224);
         s2d.scaleMode = AutoZoom(256, 224, true);
-        s2d.filter = null;
+        s2d.filter = new Nothing();
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
         tf.text = "Hello World !";
