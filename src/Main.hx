@@ -6,10 +6,7 @@ class Main extends hxd.App {
 
     override function init() {
         super.init();
-        // s2d.scaleMode = LetterBox(256, 224, true, Center, Center);
-        // s2d.scaleMode = Zoom(3);
-        // s2d.scaleMode = Stretch(256, 224);
-        s2d.scaleMode = AutoZoom(256, 224, true);
+        s2d.scaleMode = LetterBox(256, 224, true, Center, Center);
         s2d.filter = new Nothing();
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
@@ -24,12 +21,11 @@ class Main extends hxd.App {
     }
 
     override function update(dt: Float) {
-        bmp.rotation += 0.01;
+        // bmp.rotation += 0.01;
     }
 
     static function main() {
         hxd.Res.initEmbed();
-
         new Main();
     }
 }

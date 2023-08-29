@@ -2,5 +2,5 @@
 run: hello.hl
 	hl hello.hl
 
-hello.hl: src/Main.hx
+hello.hl: src/Main.hx res/img/sheet.png
 	haxe compile.hxml
