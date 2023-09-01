@@ -1,16 +1,24 @@
 import h2d.Scene;
 import h2d.filter.Nothing;
+import hxd.Key;
 
 class Main extends hxd.App {
     static var W = 256;
     static var H = 224;
     static var TW = 8; // default tile width / height;
 
+    var x: Float = 60;
+    var heroSprite: h2d.Bitmap;
+
     override function init() {
         super.init();
 
         s2d.scaleMode = LetterBox(W, H, true, Center, Center);
-        s2d.filter = new Nothing();
+        var mask = new h2d.Graphics(s2d);
+        mask.beginFill(0xFF0000, 0.5);
+        mask.drawRect(0, 0, W, H);
+        mask.endFill();
+        s2d.filter = new h2d.filter.Mask(mask);
 
         var spriteSheet = hxd.Res.img.sheet.toTile();
         var brickTile = spriteSheet.sub(2*TW, 0, TW, TW);
@@ -26,21 +34,26 @@ class Main extends hxd.App {
         }
 
         var heroTile = spriteSheet.sub(0, 0, 2*TW, 2*TW);
-        var heroSprite = new h2d.SpriteBatch.BasicElement(heroTile);
-        heroSprite.x = 60;
+        heroSprite = new h2d.Bitmap(heroTile);
+        heroSprite.x = x;
         heroSprite.y = 60;
-
-        var spriteBatch = new h2d.SpriteBatch(spriteSheet, s2d);
-        spriteBatch.hasUpdate = true;
-        spriteBatch.add(heroSprite);
+        s2d.add(heroSprite);
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
-        tf.text = "Hello World !";
+        tf.text = 'Hello World !';
         tf.x = 2*TW;
         tf.y = 2*TW;
     }
 
     override function update(dt: Float) {
+        super.update(dt);
+        if (Key.isDown(Key.LEFT)) {
+            x -= 1;
+        }
+        if (Key.isDown(Key.RIGHT)) {
+            x += 1;
+        }
+        heroSprite.x = x;
     }
 
     static function main() {

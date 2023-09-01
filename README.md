@@ -24,6 +24,7 @@ $ hl hello.hl
 - <https://hashlink.haxe.org/>
 - <https://heaps.io/>
 
-Example:
+Examples:
 
-- <https://github.com/ncannasse/ld40/blob/e878d48/src/Game.hx>
+- <https://github.com/HeapsIO/heaps/blob/master/samples>
+- <https://github.com/ncannasse/ld40/blob/master/src/Game.hx>
