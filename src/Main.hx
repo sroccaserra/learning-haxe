@@ -20,17 +20,29 @@ class Main extends hxd.App {
         mask.endFill();
         s2d.filter = new h2d.filter.Mask(mask);
 
+        var mapData: TiledMapData = haxe.Json.parse(hxd.Res.map.entry.getText());
+        var tw = mapData.tileWidth;
+        var th = mapData.tileHeight;
+        var mw = mapData.width;
+        var mh = mapData.height;
+
         var spriteSheet = hxd.Res.img.sheet.toTile();
-        var brickTile = spriteSheet.sub(2*TW, 0, TW, TW);
+        var tiles = [
+             for(y in 0 ... Std.int(spriteSheet.height / th))
+             for(x in 0 ... Std.int(spriteSheet.width / tw))
+             spriteSheet.sub(x * tw, y * th, tw, th)
+        ];
 
         var group = new h2d.TileGroup(spriteSheet, s2d);
-        for(y in 0...Std.int(H/TW)) {
-            group.add(0, y*TW, brickTile);
-            group.add(W-TW, y*TW, brickTile);
-        }
-        for(x in 0...Std.int(W/TW)) {
-            group.add(x*TW, 0, brickTile);
-            group.add(x*TW, H-TW, brickTile);
+        for(layer in mapData.layers) {
+            for(y in 0 ... mh) {
+                for (x in 0 ... mw) {
+                    var tid = layer.data[x + y * mw];
+                    if (tid != 0) {
+                        group.add(x * tw, y * mapData.tileWidth, tiles[tid]);
+                    }
+                }
+            }
         }
 
         var heroTile = spriteSheet.sub(0, 0, 2*TW, 2*TW);
@@ -61,3 +73,11 @@ class Main extends hxd.App {
         new Main();
     }
 }
+
+typedef TiledMapData = {
+    layers:Array<{ data:Array<Int>}>,
+    tileWidth:Int,
+    tileHeight:Int,
+    width:Int,
+    height:Int
+};

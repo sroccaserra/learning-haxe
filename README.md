@@ -26,5 +26,6 @@ $ hl hello.hl
 
 Examples:
 
+- <https://heaps.io/documentation/drawing-tiles.html>
 - <https://github.com/HeapsIO/heaps/blob/master/samples>
 - <https://github.com/ncannasse/ld40/blob/master/src/Game.hx>
