@@ -12,6 +12,7 @@ class Main extends hxd.App {
 
     override function init() {
         super.init();
+        engine.backgroundColor = 0xFF393939;
 
         s2d.scaleMode = LetterBox(W, H, true, Center, Center);
         var mask = new h2d.Graphics(s2d);
@@ -70,6 +71,9 @@ class Main extends hxd.App {
         }
         if (Key.isDown(Key.RIGHT)) {
             x += 1;
+        }
+        if (Key.isPressed(Key.F)) {
+            engine.fullScreen = !engine.fullScreen;
         }
         heroSprite.x = x;
         heroSprite.y = y;
