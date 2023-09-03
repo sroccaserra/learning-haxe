@@ -1,5 +1,4 @@
 import h2d.Scene;
-import h2d.filter.Nothing;
 import hxd.Key;
 
 class Main extends hxd.App {
@@ -27,14 +26,14 @@ class Main extends hxd.App {
         var mw = mapData.width;
         var mh = mapData.height;
 
-        var spriteSheet = hxd.Res.img.sheet.toTile();
+        var tileSheet = hxd.Res.img.sheet.toTile();
         var tiles = [
-             for(y in 0 ... Std.int(spriteSheet.height / th))
-             for(x in 0 ... Std.int(spriteSheet.width / tw))
-             spriteSheet.sub(x * tw, y * th, tw, th)
+             for(y in 0 ... Std.int(tileSheet.height / th))
+             for(x in 0 ... Std.int(tileSheet.width / tw))
+             tileSheet.sub(x * tw, y * th, tw, th)
         ];
 
-        var group = new h2d.TileGroup(spriteSheet, s2d);
+        var group = new h2d.TileGroup(tileSheet, s2d);
         for(layer in mapData.layers) {
             for(y in 0 ... mh) {
                 for (x in 0 ... mw) {
@@ -46,7 +45,7 @@ class Main extends hxd.App {
             }
         }
 
-        var heroTile = spriteSheet.sub(0, 0, 2*TW, 2*TW);
+        var heroTile = tileSheet.sub(0, 0, 2*TW, 2*TW);
         heroSprite = new h2d.Bitmap(heroTile);
         heroSprite.x = x;
         heroSprite.y = y;
