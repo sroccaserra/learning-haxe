@@ -8,6 +8,7 @@ class Main extends hxd.App {
     static var TW = 8; // default tile width / height;
 
     var x: Float = 60;
+    var y: Float = 60;
     var heroSprite: h2d.Bitmap;
 
     override function init() {
@@ -48,7 +49,7 @@ class Main extends hxd.App {
         var heroTile = spriteSheet.sub(0, 0, 2*TW, 2*TW);
         heroSprite = new h2d.Bitmap(heroTile);
         heroSprite.x = x;
-        heroSprite.y = 60;
+        heroSprite.y = y;
         s2d.add(heroSprite);
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
@@ -59,6 +60,12 @@ class Main extends hxd.App {
 
     override function update(dt: Float) {
         super.update(dt);
+        if (Key.isDown(Key.UP)) {
+            y -= 1;
+        }
+        if (Key.isDown(Key.DOWN)) {
+            y += 1;
+        }
         if (Key.isDown(Key.LEFT)) {
             x -= 1;
         }
@@ -66,6 +73,7 @@ class Main extends hxd.App {
             x += 1;
         }
         heroSprite.x = x;
+        heroSprite.y = y;
     }
 
     static function main() {
