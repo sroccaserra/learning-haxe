@@ -6,6 +6,10 @@ class Main extends hxd.App {
     static var H = 224;
     static var TW = 8; // default tile width / height;
 
+    static var LAYER_BG = 0;
+    static var LAYER_SPRITES = 1;
+    static var LAYER_HUD = 2;
+
     var x: Float = 60;
     var y: Float = 60;
     var heroSprite: h2d.Bitmap;
@@ -21,6 +25,8 @@ class Main extends hxd.App {
         mask.endFill();
         s2d.filter = new h2d.filter.Mask(mask);
 
+        var world = new h2d.Layers(s2d);
+
         var mapData: TiledMapData = haxe.Json.parse(hxd.Res.map.entry.getText());
         var tw = mapData.tileWidth;
         var th = mapData.tileHeight;
@@ -34,7 +40,8 @@ class Main extends hxd.App {
              tileSheet.sub(x * tw, y * th, tw, th)
         ];
 
-        var group = new h2d.TileGroup(tileSheet, s2d);
+        var group = new h2d.TileGroup(tileSheet);
+        world.add(group, LAYER_BG);
         for(layer in mapData.layers) {
             for(y in 0 ... mh) {
                 for (x in 0 ... mw) {
@@ -50,9 +57,10 @@ class Main extends hxd.App {
         heroSprite = new h2d.Bitmap(heroTile);
         heroSprite.x = x;
         heroSprite.y = y;
-        s2d.add(heroSprite);
+        world.add(heroSprite, LAYER_SPRITES);
 
-        var tf = new h2d.Text(hxd.res.DefaultFont.get(), s2d);
+        var tf = new h2d.Text(hxd.res.DefaultFont.get());
+        world.add(tf, LAYER_HUD);
         tf.text = 'Hello World !';
         tf.x = 2*TW;
         tf.y = 2*TW;
@@ -86,7 +94,7 @@ class Main extends hxd.App {
 }
 
 typedef TiledMapData = {
-    layers:Array<{ data:Array<Int>}>,
+    layers:Array<{data: Array<Int>}>,
     tileWidth:Int,
     tileHeight:Int,
     width:Int,
