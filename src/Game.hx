@@ -12,7 +12,7 @@ class Game extends hxd.App {
 
     var x: Float = 60;
     var y: Float = 60;
-    var heroSprite: h2d.Object;
+    var playerObject: h2d.Object;
 
     override function init() {
         super.init();
@@ -58,10 +58,10 @@ class Game extends hxd.App {
         var runningAnim = new h2d.Anim(
                 [for (i in 0...2) tileSheet.sub(0, i*PW, PW, PH)],
                 5);
-        heroSprite = runningAnim;
-        heroSprite.x = x;
-        heroSprite.y = y;
-        world.add(heroSprite, LAYER_SPRITES);
+        playerObject = runningAnim;
+        playerObject.x = x;
+        playerObject.y = y;
+        world.add(playerObject, LAYER_SPRITES);
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get());
         world.add(tf, LAYER_HUD);
@@ -87,8 +87,8 @@ class Game extends hxd.App {
         if (Key.isPressed(Key.F)) {
             engine.fullScreen = !engine.fullScreen;
         }
-        heroSprite.x = x;
-        heroSprite.y = y;
+        playerObject.x = x;
+        playerObject.y = y;
     }
 
     static function main() {
