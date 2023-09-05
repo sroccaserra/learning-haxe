@@ -4,15 +4,15 @@ import hxd.Key;
 class Game extends hxd.App {
     static var W = 256;
     static var H = 224;
-    static var TW = 8; // default tile width / height;
 
-    static var LAYER_BG = 0;
-    static var LAYER_SPRITES = 1;
-    static var LAYER_HUD = 2;
+    public static var LAYER_BG = 0;
+    public static var LAYER_SPRITES = 1;
+    public static var LAYER_HUD = 2;
 
-    var x: Float = 60;
-    var y: Float = 60;
-    var playerObject: h2d.Object;
+    public var world: h2d.Layers;
+    public var tileSheet: h2d.Tile;
+
+    var player: Player;
 
     override function init() {
         super.init();
@@ -25,7 +25,7 @@ class Game extends hxd.App {
         mask.endFill();
         s2d.filter = new h2d.filter.Mask(mask);
 
-        var world = new h2d.Layers(s2d);
+        world = new h2d.Layers(s2d);
 
         var mapData: TiledMapData = haxe.Json.parse(hxd.Res.map.entry.getText());
         var tw = mapData.tileWidth;
@@ -33,7 +33,7 @@ class Game extends hxd.App {
         var mw = mapData.width;
         var mh = mapData.height;
 
-        var tileSheet = hxd.Res.img.sheet.toTile();
+        tileSheet = hxd.Res.img.sheet.toTile();
         var tiles = [
              for(y in 0 ... Std.int(tileSheet.height / th))
              for(x in 0 ... Std.int(tileSheet.width / tw))
@@ -53,42 +53,41 @@ class Game extends hxd.App {
             }
         }
 
-        var PW = 16;
-        var PH = 16;
-        var runningAnim = new h2d.Anim(
-                [for (i in 0...2) tileSheet.sub(0, i*PW, PW, PH)],
-                5);
-        playerObject = runningAnim;
-        playerObject.x = x;
-        playerObject.y = y;
-        world.add(playerObject, LAYER_SPRITES);
+        player = new Player(this, 60, 60);
 
         var tf = new h2d.Text(hxd.res.DefaultFont.get());
         world.add(tf, LAYER_HUD);
         tf.text = 'Hello World !';
-        tf.x = 2*TW;
-        tf.y = 2*TW;
+        tf.x = 16;
+        tf.y = 16;
     }
 
     override function update(dt: Float) {
         super.update(dt);
-        if (Key.isDown(Key.UP)) {
-            y -= 1;
-        }
-        if (Key.isDown(Key.DOWN)) {
-            y += 1;
-        }
-        if (Key.isDown(Key.LEFT)) {
-            x -= 1;
-        }
-        if (Key.isDown(Key.RIGHT)) {
-            x += 1;
-        }
+        var input = readInput();
+
+        player.update(dt, input);
+
         if (Key.isPressed(Key.F)) {
             engine.fullScreen = !engine.fullScreen;
         }
-        playerObject.x = x;
-        playerObject.y = y;
+    }
+
+    function readInput(): Input {
+        var input = {up: false, down: false, left: false, right: false};
+        if (Key.isDown(Key.UP)) {
+            input.up = true;
+        }
+        if (Key.isDown(Key.DOWN)) {
+            input.down = true;
+        }
+        if (Key.isDown(Key.LEFT)) {
+            input.left = true;
+        }
+        if (Key.isDown(Key.RIGHT)) {
+            input.right = true;
+        }
+        return input;
     }
 
     static function main() {
