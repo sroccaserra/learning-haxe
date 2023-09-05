@@ -6,14 +6,27 @@ enum FacingDirection {
 class Player {
     static var PW = 16;
     static var PH = 16;
+    static var GROUND_Y = 100;
+    static var V_0 = -4;
+    static var AY = 0.3 ;
 
+    // View
     var anim: h2d.Anim;
     var stillFrames: Array<h2d.Tile>;
     var runningFrames: Array<h2d.Tile>;
     var allAnims: Array<Array<h2d.Tile>>;
+
+    // State
     var facingDirection: FacingDirection;
+    var x: Float;
+    var y: Float;
+    var dy: Float;
 
     public function new(game: Game, x: Float, y: Float) {
+        this.x = x;
+        this.y = y;
+        this.dy = 0;
+
         initFrames(game.tileSheet);
         anim = new h2d.Anim(stillFrames, 5);
         anim.x = x;
@@ -37,22 +50,32 @@ class Player {
         var isRunning = false;
         var oldFacingDir = facingDirection;
 
-        if (input.up) {
-            anim.y -= 1;
+        if (isOnGround()) {
+            y = GROUND_Y;
+            dy = 0;
         }
-        if (input.down) {
-            anim.y += 1;
+        else {
+            dy += AY;
+        }
+
+        if (input.up && isOnGround()) {
+            dy = V_0;
         }
         if (input.left) {
-            anim.x -= 1;
+            x -= 1;
             facingDirection = FacingDirection.Left;
             isRunning = true;
         }
         if (input.right) {
-            anim.x += 1;
+            x += 1;
             facingDirection = FacingDirection.Right;
             isRunning = true;
         }
+
+        y += dy;
+
+        anim.x = x;
+        anim.y = y;
 
         if (isRunning) {
             anim.play(runningFrames, anim.currentFrame);
@@ -68,5 +91,9 @@ class Player {
                 }
             }
         }
+    }
+
+    public function isOnGround() {
+        return y >= GROUND_Y;
     }
 }
