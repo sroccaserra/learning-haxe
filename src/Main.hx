@@ -12,7 +12,7 @@ class Main extends hxd.App {
 
     var x: Float = 60;
     var y: Float = 60;
-    var heroSprite: h2d.Bitmap;
+    var heroSprite: h2d.Object;
 
     override function init() {
         super.init();
@@ -53,8 +53,12 @@ class Main extends hxd.App {
             }
         }
 
-        var heroTile = tileSheet.sub(0, 0, 2*TW, 2*TW);
-        heroSprite = new h2d.Bitmap(heroTile);
+        var PW = 16;
+        var PH = 16;
+        var runningAnim = new h2d.Anim(
+                [for (i in 0...2) tileSheet.sub(0, i*PW, PW, PH)],
+                5);
+        heroSprite = runningAnim;
         heroSprite.x = x;
         heroSprite.y = y;
         world.add(heroSprite, LAYER_SPRITES);
