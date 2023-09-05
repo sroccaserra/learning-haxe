@@ -16,6 +16,7 @@ class Game extends hxd.App {
 
     override function init() {
         super.init();
+
         engine.backgroundColor = 0xFF393939;
 
         s2d.scaleMode = LetterBox(W, H, true, Center, Center);
