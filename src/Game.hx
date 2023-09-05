@@ -1,7 +1,7 @@
 import h2d.Scene;
 import hxd.Key;
 
-class Main extends hxd.App {
+class Game extends hxd.App {
     static var W = 256;
     static var H = 224;
     static var TW = 8; // default tile width / height;
@@ -93,7 +93,7 @@ class Main extends hxd.App {
 
     static function main() {
         hxd.Res.initEmbed();
-        new Main();
+        new Game();
     }
 }
 
